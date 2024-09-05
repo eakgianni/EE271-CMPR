@@ -1,0 +1,5 @@
+7.6: the inital value of i and j are correct, but k is not correct because the line being viewed by the debugger does not execute untill the next step.
+7.7: now k is the correct value after the step since the previous line was executed and i+j was computed.
+
+7.11: the final values of i and j are 1 and 1 respectively wich makes sence since the printf executes after j == i.
+7.12: the values are as expected with j incrementing down untill it reaches 65533 wich is the value of i. 

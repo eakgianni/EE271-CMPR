@@ -1,0 +1,242 @@
+python link to python3.8 already exists, great!
+python3 link to python3.8 already exists, great!
+
+eakg1@Everett_Laptop ~
+$ cd /
+
+eakg1@Everett_Laptop /
+$ cd /home/eakg1
+
+eakg1@Everett_Laptop ~
+$ mkdir eag1452_CMPR271_workspace
+
+eakg1@Everett_Laptop ~
+$ ls
+eag1452_CMPR271_workspace
+
+eakg1@Everett_Laptop ~
+$ cd eag1452_CMPR271_workspace
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace
+$ mdir eag1452_proj1_hello_world
+-bash: mdir: command not found
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace
+$ mkdir eag1452_proj1_hello_world
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace
+$ cd eag1452_proj1_hello_world
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ gcc cabeee_proj1_hello_world.c
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ gcc cabeee_proj1_hello_world.c -o eag1452_proj1_hello_world.exe
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ ./eag1452_proj1_hello_world.exe
+Hello World!
+This is my very first program! I love CMPR271.
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ gcc -g cabeee_proj1_hello_world_delay.c -o eag1452_proj1_hello_world_delay.exe
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ ./ eag1452_proj1_hello_world_delay.exe
+-bash: ./: Is a directory
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ /. eag1452_proj1_hello_world_delay.exe
+-bash: /.: Is a directory
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ gdb eag1452_proj1_hello_world_delay.exe
+GNU gdb (GDB) (Cygwin 9.2-1) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-pc-cygwin".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from eag1452_proj1_hello_world_delay.exe...
+(gdb) step
+The program is not being run.
+(gdb) run
+Starting program: /home/eakg1/eag1452_CMPR271_workspace/eag1452_proj1_hello_world/eag1452_proj1_hello_world_delay.exe
+[New Thread 3556.0x9410]
+[New Thread 3556.0xf08]
+[New Thread 3556.0x6b44]
+[New Thread 3556.0x54f0]
+Hello World!
+This is my very first program! I love CMPR271.
+[Thread 3556.0xf08 exited with code 0]
+[Thread 3556.0x6b44 exited with code 0]
+[Thread 3556.0x9e78 exited with code 0]
+[Thread 3556.0x54f0 exited with code 0]
+[Inferior 1 (process 3556) exited normally]
+(gdb) q
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ gdb eag1452_proj1_hello_world_delay.exe
+GNU gdb (GDB) (Cygwin 9.2-1) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-pc-cygwin".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from eag1452_proj1_hello_world_delay.exe...
+(gdb) b 48
+Breakpoint 1 at 0x1004010dc: file cabeee_proj1_hello_world_delay.c, line 48.
+(gdb) run
+Starting program: /home/eakg1/eag1452_CMPR271_workspace/eag1452_proj1_hello_world/eag1452_proj1_hello_world_delay.exe
+[New Thread 30248.0x5bc0]
+[New Thread 30248.0x9b50]
+[New Thread 30248.0x9e84]
+[New Thread 30248.0x7e8]
+Hello World!
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+(gdb) print i
+$1 = 65535
+(gdb) print j
+$2 = 65535
+(gdb) print k
+$3 = 1
+(gdb) Quit
+(gdb) step
+49                  j = j - 1;
+(gdb) print k
+$4 = 131070
+(gdb) disp i
+1: i = 65535
+(gdb) disp j
+2: j = 65535
+(gdb) cont
+Continuing.
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+1: i = 65535
+2: j = 65534
+(gdb) cont
+Continuing.
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+1: i = 65535
+2: j = 65533
+(gdb) cont
+Continuing.
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+1: i = 65535
+2: j = 65532
+(gdb) set variable i = 1
+(gdb) set variable j = 3
+(gdb) cont
+Continuing.
+[New Thread 30248.0x5aa4]
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+1: i = 1
+2: j = 2
+(gdb) cont
+Continuing.
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+1: i = 1
+2: j = 1
+(gdb) cont
+Continuing.
+This is my very first program! I love CMPR271.
+[New Thread 30248.0x8d94]
+[Thread 30248.0x91f4 exited with code 0]
+[Thread 30248.0x8d94 exited with code 0]
+[Thread 30248.0x5bc0 exited with code 0]
+[Thread 30248.0x5aa4 exited with code 0]
+[Thread 30248.0x7e8 exited with code 0]
+[Thread 30248.0x9b50 exited with code 0]
+[Inferior 1 (process 30248) exited normally]
+(gdb) q
+
+eakg1@Everett_Laptop ~/eag1452_CMPR271_workspace/eag1452_proj1_hello_world
+$ gdb eag1452_proj1_hello_world_delay.exe
+GNU gdb (GDB) (Cygwin 9.2-1) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-pc-cygwin".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from eag1452_proj1_hello_world_delay.exe...
+(gdb) delete <breakpoint 48>
+(gdb) break 48 if i == 65533
+Breakpoint 1 at 0x1004010dc: file cabeee_proj1_hello_world_delay.c, line 48.
+(gdb) run
+Starting program: /home/eakg1/eag1452_CMPR271_workspace/eag1452_proj1_hello_world/eag1452_proj1_hello_world_delay.exe
+[New Thread 36572.0x53b0]
+[New Thread 36572.0x70d8]
+[New Thread 36572.0x8804]
+[New Thread 36572.0x8f3c]
+Hello World!
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+(gdb)
+(gdb) disp i
+1: i = 65533
+(gdb) disp j
+2: j = 65535
+(gdb) disp k
+3: k = 65535
+(gdb) cont
+Continuing.
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+1: i = 65533
+2: j = 65534
+3: k = 131068
+(gdb) cont
+Continuing.
+
+Thread 1 "eag1452_proj1_hello_world_delay" hit Breakpoint 1, my_delay (delayValue=65535) at cabeee_proj1_hello_world_delay.c:48
+48                  k = i+j; // insert breakpoint here
+1: i = 65533
+2: j = 65533
+3: k = 131067
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 36572] will be killed.
+
+Quit anyway? (y or n) y
