@@ -16,18 +16,18 @@
 #define TRUE 1
 #define FALSE 0
 
-#define SIZE 721
+#define SIZE 27
 
 
-#define VECT_ADD_WORKING        FALSE
-#define VECT_SUB_WORKING        FALSE
-#define VECT_PROD_WORKING       FALSE
-#define VECT_DOT_PROD_WORKING   FALSE
-#define VECT_MEAN_WORKING       FALSE
-#define VECT_MEDIAN_WORKING     FALSE
-#define VECT_MAX_WORKING        FALSE
-#define VECT_MIN_WORKING        FALSE
-#define VECT_REVERSE_WORKING    FALSE
+#define VECT_ADD_WORKING        TRUE
+#define VECT_SUB_WORKING        TRUE
+#define VECT_PROD_WORKING       TRUE
+#define VECT_DOT_PROD_WORKING   TRUE
+#define VECT_MEAN_WORKING       TRUE
+#define VECT_MEDIAN_WORKING     TRUE
+#define VECT_MAX_WORKING        TRUE
+#define VECT_MIN_WORKING        TRUE
+#define VECT_REVERSE_WORKING    TRUE
 
 // Function prototypes
 
@@ -39,7 +39,9 @@ double vect_mean(const double x[],unsigned length);
 double vect_median(const double x[],unsigned length);
 double vect_max(const double x[],unsigned length);
 double vect_min(const double x[],unsigned length);
-void vect_reverse(double x[],unsigned length);
+void vect_reverse(double x[],unsigned length);//can i add an ans?? how else do i do?
+
+//double vect_print(const double x[], unsigned length);
 
 
 #endif
