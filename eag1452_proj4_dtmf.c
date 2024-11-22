@@ -11,104 +11,212 @@
 ******************************************************************************/
 
 
-//#include "wavefile.h" // specific for dealing with .wav files
-//#include "dtmf.h"     // specific to your application - function prototypes
+#include "eag1452_wavefile.h" // specific for dealing with .wav files
+//#include "eag1452_dtmf.h"     // specific to your application - function prototypes
                    // for any functions you write should go in this file.
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define BITS_PER_SAMPLE 16 
+
 
 
 int main (int argc, const char* argv[])
 {
-    // declare local variables, such as
-    // variable and pointer to WAVEFILE structure   
-    // pointers to data samples
-    // variables used for user input, etc
-    FILE *cfPtr;
+         
+    WAVEFILE wavHeader;
+        
+    int sampleNum;//current sample within allocated memory. used for incrementing
+    int samplesPerTone;//number of samples in each tone
+    uint16_t sampleValue;//holds the value of a single tone sample
+    int numSamples;//hold number of samples
+    float toneLength = atof(argv[2]);// declare and change the string of the tone length to a numerical value
+    int numDigits;//number of user input phone number values
+      
+    int freq1;//will hold first frequency of a sample
+    int freq2;//will hold second frequency of a sample
+    int validChar;//used for testing for valid char
+       
+    //arrays that store digit corresponding tone values
+    char inputChar[13] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#', '-'}; 
+    short int tone1[13] = {697, 697, 697, 770, 770, 770, 852, 852, 852, 941, 941, 941, 0};
+    short int tone2[13] = {1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477, 0};
+        
+      
     //initilize the header section
-    HEADER wavHeader; 
     
-
     // check if user typed 4 arguments in the command line
     // using argc
     // if not, show user proper format
+    
     if (argc != 4)
     {
         // printf proper format for use
+        show_usage();
         return -1;
     }
-
-
+        
     // Check for valid numbers and symbols in phone number and tonelength
     // using argv[]
-    for(size_t i = 0; *(argv[3]+i) != 0; i++)
+    
+    for(size_t i = 0; argv[3][i] != '\0'; i++)
     {
-        if(!isdigit(*(argv[3]+i))  && *(argv[3]+i) != '-' && *(argv[3]+i) != '*' && *(argv[3]+i) != '#')
+        validChar = 0;
+        for(size_t f = 0; f < 13; f++)
+        {    
+            
+            if(argv[3][i] == inputChar[f])
+            {                           
+                validChar = 1;
+                break;//break out of the loop once a valid character is detected               
+            }    
+            
+        }       
+        if(validChar == 0)//if you reached the end of the list without identifying a valid char
         {
-            show_usage();// if not, show user proper format
-            return -1;
+            show_usage();//throw an error
+            return -1;                  
         }
+        numDigits = i+1;//count the number of phone number characters
     }
-   
-
-    // change the string of the tone length to a numerical value
+    
+    
+    
+    
     // check for valid tone lengths
     // if not, show user proper format
-    if ( atof(*(argv[2])) < 0.1 || atof(*(argv[2])) > 1.0)//check if tonelength is out of bounds
+    
+    
+    if (1.0 < toneLength)//check if tonelength is above bounds
+    {
+        show_usage();
+        return -1;
+    }
+    if (0.1 > toneLength)//check if tonelength is below bounds
     {
         show_usage();
         return -1;
     }
     
-
-    // Now, either a) declare a varible of WAVEFILE datatype to
-    // hold the 'header' of the wavefile,
-    // or b) allocate memory for the 'header' of the wavefile
-    // using malloc()
-    //headerPtr = malloc(sizeof(WAVEFILE));
-    // and check it was properly allocated (did malloc return NULL?)
-    
-    HEADER wavHeader.ChunkID
+    //calculate how many samples will be preformed per tone
+    samplesPerTone = SAMPLE_RATE * toneLength;//multiply sample rate with tone length     
+    numSamples = samplesPerTone * numDigits;//multiply samples for each tone by number of tones (chars in arg3) truncating bc you can only have whole samples    
     
     
     
+    //assign ChunkID    
+    wavHeader.ChunkID[0] = 'R';
+    wavHeader.ChunkID[1] = 'I';
+    wavHeader.ChunkID[2] = 'F';
+    wavHeader.ChunkID[3] = 'F';
     
-    // allocate memory for the data in the file (for the samples)
-    // using malloc()
-    //dataSamplesPtr = malloc(<expression to figure out # of bytes needed>);
-    // number of bytes will depend on:
-    // 1) number of digits in number
-    // 2) toneLength per digit
-    // 3) SAMPLE_RATE - defined in wavefile.h
-    // 4) BYTES_PER_SAMPLE - defined in wavefile.h
+    //assign ChunkSize
+    wavHeader.ChunkSize = 36 + numSamples * NUM_CHANNELS * BYTES_PER_SAMPLE;
+   
+    // assign format 
+    wavHeader.Format[0] = 'W';
+    wavHeader.Format[1] = 'A';
+    wavHeader.Format[2] = 'V';
+    wavHeader.Format[3] = 'E';
+    
+    
+    //assign subchunk 1 id
+    wavHeader.SubChunk1ID[0] = 'f';
+    wavHeader.SubChunk1ID[1] = 'm';
+    wavHeader.SubChunk1ID[2] = 't';
+    wavHeader.SubChunk1ID[3] = ' ';
+    
+    //assign subchunk 1 size
+    wavHeader.SubChunk1Size = 16;
 
-    // and check it was properly allocated (did malloc return NULL?)
+    //assign audio format
+    wavHeader.AudioFormat = PCM_FORMAT;
+    
+    //assign number of channels
+    wavHeader.NumChannels = NUM_CHANNELS;
+    
+    //assign samplerate
+    wavHeader.SampleRate = SAMPLE_RATE;
+    
+    //assign byte rate
+    wavHeader.ByteRate = SAMPLE_RATE * NUM_CHANNELS * BYTES_PER_SAMPLE;
 
-    // fill in the wavefile-header structure (members) into the allocated memory,
-    // using dot (.) or arrow (->) operators
-    // (use dot if you created a WAVEFILE variable, use arrow if you used malloc and have a pointer)
+    //assign block align
+    wavHeader.BlockAlign = NUM_CHANNELS * BITS_PER_SAMPLE / 8;
+    
+    //assign bits per sample
+    wavHeader.BitsPerSample = BITS_PER_SAMPLE;
+    
+    //assign subchunk2 id
+    wavHeader.SubChunk2ID[0] = 'd';
+    wavHeader.SubChunk2ID[1] = 'a';
+    wavHeader.SubChunk2ID[2] = 't';
+    wavHeader.SubChunk2ID[3] = 'a';
 
-    // open/create the file using fopen(), and check it was properly opened
-
-    // create the data samples, populating the allocated data memory
-    // sampleValue = AMPLITUDE * (sin(sampleNum * freq1 * 2 * 3.14159 / SAMPLE_RATE) +
-    //                                    sin(sampleNum * freq2 * 2 * 3.14159 / SAMPLE_RATE));
+    //assign subchunk2 size
+    wavHeader.SubChunk2Size =  numSamples * NUM_CHANNELS * BYTES_PER_SAMPLE;
+    
+    
+    //need to allocate memory to store the samples before writing. ammount needed is == sub chunk 2
+    uint16_t *wavSamplesPtr = (uint16_t *) malloc(wavHeader.SubChunk2Size);
+    
+    //check for failed memory allocation
+    if(wavSamplesPtr == NULL)
+    {
+        puts("allocation error");
+        return -1;
+    }
+    
+    
+    //generate the samples  
+    //loop through each number in the user phone# string    
+    sampleNum = 0;
+    for(size_t i = 0; i < numDigits; i++)
+    {
+        //cycle through valid characters
+        for(size_t f = 0; f < 14; f++)
+        {    
+            //detect a valid character from valid character array
+            if( argv[3][i] == inputChar[f])
+            {
+                freq1 = (int) tone1[f];//assign corresponding freq1
+                freq2 = (int) tone2[f];//assign corresponding freq2
+                                
+                for(size_t j = 0; j <= samplesPerTone; j++)//generate all the samples for a single digit-tone
+                {
+                    sampleValue = AMPLITUDE * (sin(sampleNum * freq1 * 2 * 3.14159 / SAMPLE_RATE) +//single sample calculation
+                                               sin(sampleNum * freq2 * 2 * 3.14159 / SAMPLE_RATE));
+                                                                 
+                    wavSamplesPtr[sampleNum] = sampleValue;//put the sample in its spot in the allocated mem
+                    sampleNum ++;//go to the next spot in memory for the next sample
+                }     
+            }    
+        }                 
+    }       
                                 
     
-
     // write (copy) the wavefile-header of the wavefile, from allocated
-    // memory, into the file, and check it wrote properly
-
+    // memory, into the file, and check it wrote properly   
+    FILE *wavFilePtr = fopen(argv[1], "wb");//create wav file with user-inputed name
+    fwrite(&wavHeader, sizeof(wavHeader), 1, wavFilePtr); 
+    
+    
+    
     // write (copy) the data-samples of the wavefile, from allocated
     // memory, into the file, and check it wrote properly
-
+    fwrite(wavSamplesPtr, wavHeader.SubChunk2Size, 1, wavFilePtr);
+    
+    
     // close the file
-
+    fclose(wavFilePtr);
+    
   
     // free all allocated memory
-
+    free(wavSamplesPtr);
+    
     return (0);
-
-
+   
 }
 
 

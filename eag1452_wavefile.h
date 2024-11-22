@@ -2,16 +2,16 @@
 #define __WAVEFILE_H_
 
 /******************************************************************************
-* File Name: eag1452_wavefile.h
+* File Name: cabeee_wavefile.h
 *
 * Created for CMPR-271 on: Nov. 1, 2019
 *
 * Author: Carlos Barrios
 *
-* Modified by: Everett Gianni on November 11th 2024
+* Modified by: Everett Gianni 11/22/2024
 *
 * Purpose: Contains the structure prototype for the wavefile to be created
-* by the module eag1452_proj4_dtmf.c
+* by the module dtmf.c
 *  
 ******************************************************************************/
 
