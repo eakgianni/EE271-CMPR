@@ -26,7 +26,7 @@ int main (int argc, const char* argv[])
 {
          
     WAVEFILE wavHeader;
-        
+       
     int sampleNum;//current sample within allocated memory. used for incrementing
     int samplesPerTone;//number of samples in each tone
     uint16_t sampleValue;//holds the value of a single tone sample
@@ -73,6 +73,7 @@ int main (int argc, const char* argv[])
             }    
             
         }       
+        
         if(validChar == 0)//if you reached the end of the list without identifying a valid char
         {
             show_usage();//throw an error
